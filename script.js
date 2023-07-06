@@ -30,64 +30,87 @@ const operate = (operator, firstNumber, secondNumber) => {
   };
 };
 
-const displayPanel = document.querySelector('#displayPanel');
-const numberButtons = document.querySelectorAll('#keypad .number');
-const operatorButtons = document.querySelectorAll('#keypad .operator');
-const equalsKey = document.querySelector('#keypad #equals');
-const allClearKey = document.querySelector('#keypad #allClear');
-let displayValues = [];
+// const displayPanel = document.querySelector('#displayPanel');
+// const numberButtons = document.querySelectorAll('#keypad .number');
+// const operatorButtons = document.querySelectorAll('#keypad .operator');
+// const equalsKey = document.querySelector('#keypad #equals');
+// const allClearKey = document.querySelector('#keypad #allClear');
+// let displayValues = [];
 
-numberButtons.forEach((button) => {
-  button.addEventListener('click', (e) => {
-    displayValues.push(e.target.value);
-    displayPanel.textContent += e.target.value;
-  });
-});
+// numberButtons.forEach((button) => {
+//   button.addEventListener('click', (e) => {
+//     displayValues.push(e.target.value);
+//     displayPanel.textContent += e.target.value;
+//   });
+// });
 
-operatorButtons.forEach((button) => {
-  button.addEventListener('click', (e) => {
-    // REQUIERE que se haya ingresado un valor, si no, no ingresa ningun operador al displayPanel,
-    // o no llama a getResult por no tener un valor para secondNumber
-    if (displayValues.length < 1) return;
+// operatorButtons.forEach((button) => {
+//   button.addEventListener('click', (e) => {
+//     // REQUIERE que se haya ingresado un valor, si no, no ingresa ningun operador al displayPanel,
+//     // o no llama a getResult por no tener un valor para secondNumber
+//     if (displayValues.length < 1) return;
 
-    // SI firstNumber tiene un valor asignado Y se han ingresado nuevos valores para
-    // secondNumber, se muestra el resultado + el operador elegido
-    if (firstNumber) getResult();
-    // Si getResult fue llamado, el valor de result sera asignado a firstNumber para
-    // mantener una cadena de operaciones sin perder los valores anteriores
-    
-    firstNumber = displayValues.reduce((acc, current) => acc + current, '');
-    displayValues = [];
-    operator = e.target.value;
-    displayPanel.textContent += ` ${operator} `;
-  })
-});
+//     // SI firstNumber tiene un valor asignado Y se han ingresado nuevos valores para
+//     // secondNumber, se muestra el resultado + el operador elegido
+//     if (firstNumber) getResult();
+//     // Si getResult fue llamado, el valor de result sera asignado a firstNumber para
+//     // mantener una cadena de operaciones sin perder los valores anteriores
 
-const getResult = () => {
-  secondNumber = displayValues.reduce((acc, current) => acc + current, '');
-  result = operate(operator, +firstNumber, +secondNumber);
-  displayValues = result.toString().split('');
+//     firstNumber = displayValues.reduce((acc, current) => acc + current, '');
+//     displayValues = [];
+//     operator = e.target.value;
+//     displayPanel.textContent += ` ${operator} `;
+//   })
+// });
 
-  // Round answers with long decimals:
-  if (result.toString().length > 12) {
-    displayPanel.textContent = result.toString().slice(0, 12) + '...';
-  } else {
-    displayPanel.textContent = result;
-  }
+// const getResult = () => {
+//   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
 
-  operator = '';
-  firstNumber = '';
-  secondNumber = '';
-};
+//   // /0+/ regExp o /0/g
+//   if (operator == '/' && (/0+/).test(secondNumber)) {
+//     displayValues = [];
+//     operator = '';
+//     firstNumber = '';
+//     secondNumber = '';
+//     displayPanel.textContent = 'The operation divided by 0 is not allowed';
+//     numberButtons.forEach((button) => {
+//       button.addEventListener('click', clearAndInsert);
+//     });
+//     return;
+//   }
 
-equalsKey.addEventListener('click', () => {
-  if (firstNumber && displayValues.length > 0) getResult();
-});
+//   result = operate(operator, +firstNumber, +secondNumber);
+//   displayValues = result.toString().split('');
 
-allClearKey.addEventListener('click', () => {
-  displayValues = [];
-  operator = '';
-  firstNumber = '';
-  secondNumber = '';
-  displayPanel.textContent = '';
-});
+//   // Round answers with long decimals:
+//   if (result.toString().length > 12) {
+//     displayPanel.textContent = result.toString().slice(0, 12) + '...';
+//   } else {
+//     displayPanel.textContent = result;
+//   }
+
+//   operator = '';
+//   firstNumber = '';
+//   secondNumber = '';
+// };
+
+// equalsKey.addEventListener('click', () => {
+//   if (firstNumber && displayValues.length > 0) getResult();
+// });
+
+// allClearKey.addEventListener('click', () => {
+//   displayValues = [];
+//   operator = '';
+//   firstNumber = '';
+//   secondNumber = '';
+//   displayPanel.textContent = '';
+// });
+
+// const clearAndInsert = (e) => {
+//   displayValues = [];
+//   displayValues.push(e.target.value);
+//   displayPanel.textContent = e.target.value;
+//   numberButtons.forEach((button) => {
+//     button.removeEventListener('click', clearAndInsert);
+//   });
+// };
