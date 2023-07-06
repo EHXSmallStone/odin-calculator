@@ -68,17 +68,19 @@ operatorButtons.forEach((button) => {
 const getResult = () => {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
   result = operate(operator, +firstNumber, +secondNumber);
-  displayValues = [result.toString()];
-  displayPanel.textContent = result;
-  operator = '';
-  firstNumber = '';
-  secondNumber = '';
+  displayValues = result.toString().split('');
+
+  // Round answers with long decimals:
+  if (result.toString().length > 12) {
+    displayPanel.textContent = result.toString().slice(0, 12) + '...';
+  } else {
+    displayPanel.textContent = result;
+  }
 };
 
 equalsKey.addEventListener('click', () => {
   if (firstNumber && displayValues.length > 0) getResult();
 });
-
 
 allClearKey.addEventListener('click', () => {
   displayValues = [];
@@ -87,6 +89,3 @@ allClearKey.addEventListener('click', () => {
   secondNumber = '';
   displayPanel.textContent = '';
 });
-
-
-// const allClear = () => {};
