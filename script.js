@@ -44,25 +44,23 @@ numberButtons.forEach((button) => {
   });
 });
 
-const insertOperator = (e) => {
-  // REQUIERE que se haya ingresado un valor, si no, no ingresa ningun operador al displayPanel,
-  // o no llama a getResult por no tener un valor para secondNumber
-  if (displayValues.length < 1) return;
-
-  // SI firstNumber tiene un valor asignado Y se han ingresado nuevos valores para
-  // secondNumber, se muestra el resultado + el operador elegido
-  if (firstNumber) getResult();
-
-  // Si getResult fue llamado, el valor de result sera asignado a firstNumber para
-  // mantener una cadena de operaciones sin perder los valores anteriores
-  firstNumber = displayValues.reduce((acc, current) => acc + current, '');
-  displayValues = [];
-  operator = e.target.value;
-  displayPanel.textContent += ` ${operator} `;
-};
-
 operatorButtons.forEach((button) => {
-  button.addEventListener('click', insertOperator)
+  button.addEventListener('click', (e) => {
+    // REQUIERE que se haya ingresado un valor, si no, no ingresa ningun operador al displayPanel,
+    // o no llama a getResult por no tener un valor para secondNumber
+    if (displayValues.length < 1) return;
+
+    // SI firstNumber tiene un valor asignado Y se han ingresado nuevos valores para
+    // secondNumber, se muestra el resultado + el operador elegido
+    if (firstNumber) getResult();
+    // Si getResult fue llamado, el valor de result sera asignado a firstNumber para
+    // mantener una cadena de operaciones sin perder los valores anteriores
+    
+    firstNumber = displayValues.reduce((acc, current) => acc + current, '');
+    displayValues = [];
+    operator = e.target.value;
+    displayPanel.textContent += ` ${operator} `;
+  })
 });
 
 const getResult = () => {
