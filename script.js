@@ -74,6 +74,10 @@ const getResult = () => {
   } else {
     displayPanel.textContent = result;
   }
+
+  operator = '';
+  firstNumber = '';
+  secondNumber = '';
 };
 
 equalsKey.addEventListener('click', () => {
