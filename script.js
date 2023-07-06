@@ -41,9 +41,26 @@ const operate = (operator, firstNumber, secondNumber) => {
 
 const displayPanel = document.querySelector('#displayPanel');
 const numberButtons = document.querySelectorAll('#keypad .number');
+const operatorButtons = document.querySelectorAll('#keypad .operator');
+let displayValues = [];
 
-for (let button of numberButtons) {
+numberButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
+    displayValues.push(e.target.value);
     displayPanel.textContent += e.target.value;
-  })
+  });
+});
+
+const insertOperator = (e) => {
+  operator = e.target.value;
+  firstNumber = displayValues.reduce((acc, current) => acc + current, '');
+  displayValues = [];
+  operatorButtons.forEach((button) => {
+    button.removeEventListener('click', insertOperator);
+  });
+  displayPanel.textContent += ` ${e.target.value} `;
 };
+
+operatorButtons.forEach((button) => {
+  button.addEventListener('click', insertOperator)
+});
