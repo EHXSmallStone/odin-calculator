@@ -6,9 +6,9 @@ const multiply = (...args) => args.reduce((total, current) => total * current);
 
 const divide = (...args) => args.reduce((total, current) => total / current);
 
-let operator;
-let firstNumber;
-let secondNumber;
+let operator = '';
+let firstNumber = '';
+let secondNumber = '';
 
 const operate = (operator, firstNumber, secondNumber) => {
   switch(operator) {
@@ -44,21 +44,45 @@ numberButtons.forEach((button) => {
 });
 
 const insertOperator = (e) => {
-  operator = e.target.value;
+  // REQUIERE que se haya ingresado un valor, si no, no ingresa ningun operador al displayPanel,
+  // o no llama a getResult por no tener un valor para secondNumber
+  if (displayValues.length < 1) return;
+
+  // SI firstNumber tiene un valor asignado Y se han ingresado nuevos valores para
+  // secondNumber, se muestra el resultado + el operador elegido
+  if (firstNumber) getResult();
+
+  // Si getResult fue llamado, el valor de result sera asignado a firstNumber para
+  // mantener una cadena de operaciones sin perder los valores anteriores
   firstNumber = displayValues.reduce((acc, current) => acc + current, '');
   displayValues = [];
-  operatorButtons.forEach((button) => {
-    button.removeEventListener('click', insertOperator);
-  });
-  displayPanel.textContent += ` ${e.target.value} `;
+  operator = e.target.value;
+  displayPanel.textContent += ` ${operator} `;
 };
 
 operatorButtons.forEach((button) => {
   button.addEventListener('click', insertOperator)
 });
 
-equalsKey.addEventListener('click', () => {
+const getResult = () => {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
-  displayValues = [];
-  displayPanel.textContent = operate(operator, +firstNumber, +secondNumber);
+  result = operate(operator, +firstNumber, +secondNumber);
+  displayValues = [result.toString()];
+  displayPanel.textContent = result;
+  operator = '';
+  firstNumber = '';
+  secondNumber = '';
+};
+
+equalsKey.addEventListener('click', () => {
+  if (firstNumber && displayValues.length > 0) getResult();
 });
+
+// const allClear = () => {};
+
+
+
+// SI uso un operador sin tener valores en firstnumber y second, no usar el operador
+// SI firstNumber tiene un valor, los operadores deberian poder usarse solo una vez
+//    SI se usa otra vez sin tener un valor en secondNumber, no usar el operador
+// SI uso un operador y firstNumber y secondNumber tienen valores, mostrar el resultado
