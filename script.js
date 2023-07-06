@@ -11,15 +11,6 @@ let firstNumber;
 let secondNumber;
 
 const operate = (operator, firstNumber, secondNumber) => {
-  // if (operator == '+') {
-  //   return add(firstNumber, secondNumber);
-  // } else if (operator == '-') {
-  //   return subtract(firstNumber, secondNumber);
-  // } else if (operator == '*') {
-  //   return multiply(firstNumber, secondNumber);
-  // } else if (operator == '/') {
-  //   return divide(firstNumber, secondNumber);
-  // }
   switch(operator) {
     case '+':
       return add(firstNumber, secondNumber);
@@ -42,6 +33,7 @@ const operate = (operator, firstNumber, secondNumber) => {
 const displayPanel = document.querySelector('#displayPanel');
 const numberButtons = document.querySelectorAll('#keypad .number');
 const operatorButtons = document.querySelectorAll('#keypad .operator');
+const equalsKey = document.querySelector('#keypad #equals');
 let displayValues = [];
 
 numberButtons.forEach((button) => {
@@ -63,4 +55,10 @@ const insertOperator = (e) => {
 
 operatorButtons.forEach((button) => {
   button.addEventListener('click', insertOperator)
+});
+
+equalsKey.addEventListener('click', () => {
+  secondNumber = displayValues.reduce((acc, current) => acc + current, '');
+  displayValues = [];
+  displayPanel.textContent = operate(operator, +firstNumber, +secondNumber);
 });
