@@ -1,6 +1,6 @@
-*, *::before, *::after {
+/* *, *::before, *::after {
   box-sizing: border-box;
-}
+} */
 
 html {
   height: 100%;
@@ -14,6 +14,11 @@ body {
   height: 100%;
 }
 
-#container > * {
+#calculator > * {
   border: 1px solid #000;
+  padding: 1em;
+}
+
+#displayPanel {
+  height: 1em;
 }

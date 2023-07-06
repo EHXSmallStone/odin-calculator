@@ -38,3 +38,12 @@ const operate = (operator, firstNumber, secondNumber) => {
       break;
   };
 };
+
+const displayPanel = document.querySelector('#displayPanel');
+const numberButtons = document.querySelectorAll('#keypad .number');
+
+for (let button of numberButtons) {
+  button.addEventListener('click', (e) => {
+    displayPanel.textContent += e.target.value;
+  })
+};
