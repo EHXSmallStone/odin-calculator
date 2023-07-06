@@ -34,6 +34,7 @@ const displayPanel = document.querySelector('#displayPanel');
 const numberButtons = document.querySelectorAll('#keypad .number');
 const operatorButtons = document.querySelectorAll('#keypad .operator');
 const equalsKey = document.querySelector('#keypad #equals');
+const allClearKey = document.querySelector('#keypad #allClear');
 let displayValues = [];
 
 numberButtons.forEach((button) => {
@@ -78,11 +79,14 @@ equalsKey.addEventListener('click', () => {
   if (firstNumber && displayValues.length > 0) getResult();
 });
 
+
+allClearKey.addEventListener('click', () => {
+  displayValues = [];
+  operator = '';
+  firstNumber = '';
+  secondNumber = '';
+  displayPanel.textContent = '';
+});
+
+
 // const allClear = () => {};
-
-
-
-// SI uso un operador sin tener valores en firstnumber y second, no usar el operador
-// SI firstNumber tiene un valor, los operadores deberian poder usarse solo una vez
-//    SI se usa otra vez sin tener un valor en secondNumber, no usar el operador
-// SI uso un operador y firstNumber y secondNumber tienen valores, mostrar el resultado
