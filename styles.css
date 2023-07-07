@@ -1,24 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
 /* *, *::before, *::after {
   box-sizing: border-box;
 } */
 
 html {
   height: 100%;
+  font-size: 20px;
 }
 
 body {
   margin: 0;
+  height: 100%;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 }
 
-#calculator > * {
-  border: 1px solid #000;
-  padding: 1em;
+#calculator {
+  background-color: #434961;
+  padding: 16px;
+  aspect-ratio: 2 / 3;
+  width: 320px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.80);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 #displayPanel {
-  height: 1em;
+  flex: 1;
+  background-color: #fff;
+  padding: 16px;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#keypad {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+}
+
+#keypad > button {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* Grid layout config */
+
+button[id="allClear"] {
+  grid-row-start: 1;
+  grid-column-start: 1;
+}
+
+button[id="cancelEntry"] {
+  grid-row-start: 1;
+  grid-column-start: 2;
+}
+
+button[value="/"] {
+  grid-row-start: 1;
+  grid-column-start: 3;
+}
+
+button[value="*"] {
+  grid-row-start: 1;
+  grid-column-start: 4;
+}
+
+button[value="7"] {
+  grid-row-start: 2;
+  grid-column-start: 1;
+}
+
+button[value="8"] {
+  grid-row-start: 2;
+  grid-column-start: 2;
+}
+
+button[value="9"] {
+  grid-row-start: 2;
+  grid-column-start: 3;
+}
+
+button[value="-"] {
+  grid-row-start: 2;
+  grid-column-start: 4;
+}
+
+button[value="4"] {
+  grid-row-start: 3;
+  grid-column-start: 1;
+}
+
+button[value="5"] {
+  grid-row-start: 3;
+  grid-column-start: 2;
+}
+
+button[value="6"] {
+  grid-row-start: 3;
+  grid-column-start: 3;
+}
+
+button[value="+"] {
+  grid-row-start: 3;
+  grid-column-start: 4;
+}
+
+button[value="1"] {
+  grid-row-start: 4;
+  grid-column-start: 1;
+}
+
+button[value="2"] {
+  grid-row-start: 4;
+  grid-column-start: 2;
+}
+
+button[value="3"] {
+  grid-row-start: 4;
+  grid-column-start: 3;
+}
+
+button[value="="] {
+  grid-row-start: 4;
+  grid-column-start: 4;
+  grid-row-end: span 2;
+}
+
+button[value="0"] {
+  grid-row-start: 5;
+  grid-column-start: 1;
+  grid-column-end: span 2;
+}
+
+button[value="."] {
+  grid-row-start: 5;
+  grid-column-start: 3;
 }
