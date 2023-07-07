@@ -30,14 +30,15 @@ const operate = (operator, firstNumber, secondNumber) => {
   };
 };
 
-const displayPanel = document.querySelector('#displayPanel');
+const displayPreviousOperand = document.querySelector('#displayPanel #previousOperand');
+const displayCurrentOperand = document.querySelector('#displayPanel #currentOperand');
 const numberKeys = document.querySelectorAll('.number');
 let displayValues = [];
 
 numberKeys.forEach((key) => {
   key.addEventListener('click', (e) => {
     displayValues.push(e.target.value);
-    displayPanel.textContent += e.target.value;
+    displayCurrentOperand.textContent += e.target.value;
   });
 });
 
@@ -47,7 +48,8 @@ operatorKeys.forEach((key) => {
     firstNumber = displayValues.reduce((acc, current) => acc + current, '');
     displayValues = [];
     operator = e.target.value;
-    displayPanel.textContent += ` ${e.target.value} `;
+    displayPreviousOperand.textContent = `${firstNumber} ${operator} `;
+    displayCurrentOperand.textContent = '';
   });
 });
 
@@ -56,7 +58,8 @@ equalsKey.addEventListener('click', () => {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
   displayValues = [];
   result = operate(operator, +firstNumber, +secondNumber);
-  displayPanel.textContent = result;
+  displayPreviousOperand.textContent += `${secondNumber} =`;
+  displayCurrentOperand.textContent = result;
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
