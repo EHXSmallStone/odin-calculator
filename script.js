@@ -30,12 +30,24 @@ const operate = (operator, firstNumber, secondNumber) => {
   };
 };
 
-// const displayPanel = document.querySelector('#displayPanel');
-// const numberButtons = document.querySelectorAll('#keypad .number');
+const displayPanel = document.querySelector('#displayPanel');
+const numberKeys = document.querySelectorAll('#keypad .number');
+let displayValue = [];
+
+for (let key of numberKeys) {
+  key.addEventListener('click', (e) => {
+    displayValue.push(e.target.value);
+    displayPanel.textContent += e.target.value;
+  });
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 // const operatorButtons = document.querySelectorAll('#keypad .operator');
 // const equalsKey = document.querySelector('#keypad #equals');
 // const allClearKey = document.querySelector('#keypad #allClear');
-// let displayValues = [];
 
 // numberButtons.forEach((button) => {
 //   button.addEventListener('click', (e) => {
