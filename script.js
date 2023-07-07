@@ -60,18 +60,24 @@ equalsKey.addEventListener('click', () => {
   result = operate(operator, +firstNumber, +secondNumber);
   displayPreviousOperand.textContent += `${secondNumber} =`;
   displayCurrentOperand.textContent = result;
+  numberKeys.forEach((key) => {
+    key.addEventListener('click', clearAndInsert);
+  });
 });
 
+// Solo debe ser para numberKeys porque los operatorKeys deben encadenar el resultado y usarlo
+function clearAndInsert() {
+  operator = '';
+  firstNumber = '';
+  secondNumber = '';
+  displayPreviousOperand.textContent = '';
+  displayCurrentOperand.textContent = displayValues;
+  numberKeys.forEach((key) => {
+    key.removeEventListener('click', clearAndInsert);
+  });
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-// const allClearKey = document.querySelector('#keypad #allClear');
-
-// numberButtons.forEach((button) => {
-//   button.addEventListener('click', (e) => {
-//     displayValues.push(e.target.value);
-//     displayPanel.textContent += e.target.value;
-//   });
-// });
 
 // operatorButtons.forEach((button) => {
 //   button.addEventListener('click', (e) => {
