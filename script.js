@@ -55,27 +55,48 @@ operatorKeys.forEach((key) => {
 
 const equalsKey = document.querySelector('#equals');
 equalsKey.addEventListener('click', () => {
+  if (!firstNumber || displayValues.length < 1) return;
+  // SI firstNumber O displayValues no tienen ningun valor, equalsKey no hara nada.
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
-  displayValues = [];
   result = operate(operator, +firstNumber, +secondNumber);
+
   displayPreviousOperand.textContent += `${secondNumber} =`;
   displayCurrentOperand.textContent = result;
+
+  displayValues = result.toString().split('');
+  // Reasigna displayValues con el resultado para que si un operador es usado, se usara
+  // el valor del resultado para firstNumber.
+  operator = '';
+  firstNumber = '';
+  secondNumber = '';
+
+  // Add clearAndInsert to numberKeys:
   numberKeys.forEach((key) => {
     key.addEventListener('click', clearAndInsert);
   });
 });
 
 // Solo debe ser para numberKeys porque los operatorKeys deben encadenar el resultado y usarlo
-function clearAndInsert() {
-  operator = '';
-  firstNumber = '';
-  secondNumber = '';
+function clearAndInsert(e) {
+  displayValues = [e.target.value];
   displayPreviousOperand.textContent = '';
-  displayCurrentOperand.textContent = displayValues;
+  displayCurrentOperand.textContent = e.target.value;
   numberKeys.forEach((key) => {
     key.removeEventListener('click', clearAndInsert);
   });
 };
+
+// Remove ClearAndInsert
+operatorKeys.forEach((key) => {
+  key.addEventListener('click', () => {
+    numberKeys.forEach((key) => {
+      key.removeEventListener('click', clearAndInsert);
+    });
+  });
+});
+// Es para que, despues de haber ingresado un operador con el resultado, evitar que se borre
+// todo despues de querer ingresar un numero como segundo operando
+// RECORDAR agregarlo tambien para las teclas de borrar
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
