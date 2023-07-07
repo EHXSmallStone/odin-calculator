@@ -31,22 +31,36 @@ const operate = (operator, firstNumber, secondNumber) => {
 };
 
 const displayPanel = document.querySelector('#displayPanel');
-const numberKeys = document.querySelectorAll('#keypad .number');
-let displayValue = [];
+const numberKeys = document.querySelectorAll('.number');
+let displayValues = [];
 
-for (let key of numberKeys) {
+numberKeys.forEach((key) => {
   key.addEventListener('click', (e) => {
-    displayValue.push(e.target.value);
+    displayValues.push(e.target.value);
     displayPanel.textContent += e.target.value;
   });
-};
+});
 
+const operatorKeys = document.querySelectorAll('.operator');
+operatorKeys.forEach((key) => {
+  key.addEventListener('click', (e) => {
+    firstNumber = displayValues.reduce((acc, current) => acc + current, '');
+    displayValues = [];
+    operator = e.target.value;
+    displayPanel.textContent += ` ${e.target.value} `;
+  });
+});
 
+const equalsKey = document.querySelector('#equals');
+equalsKey.addEventListener('click', () => {
+  secondNumber = displayValues.reduce((acc, current) => acc + current, '');
+  displayValues = [];
+  result = operate(operator, +firstNumber, +secondNumber);
+  displayPanel.textContent = result;
+});
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-// const operatorButtons = document.querySelectorAll('#keypad .operator');
-// const equalsKey = document.querySelector('#keypad #equals');
 // const allClearKey = document.querySelector('#keypad #allClear');
 
 // numberButtons.forEach((button) => {
