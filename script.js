@@ -100,6 +100,13 @@ allClearKey.addEventListener('click', () => {
   displayCurrentOperand.textContent = '';
 });
 
+const cancelEntryKey = document.querySelector('#cancelEntry');
+cancelEntryKey.addEventListener('click', () => {
+  if (displayValues.length == 0) return;
+  displayValues.pop();
+  displayCurrentOperand.textContent = displayValues.join('');
+});
+
 function clearAndInsert(e) {
   displayValues = [e.target.value];
   displayPreviousOperand.textContent = '';
