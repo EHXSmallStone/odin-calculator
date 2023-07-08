@@ -44,16 +44,11 @@ body {
   border: 1px solid rgb(55 55 55 / 0.5);
 }
 
-#displayPanel > * { /* Only for debugging */
-  /* border: 1px solid black; */
-}
 #previousOperand,
 #currentOperand {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  /* text-overflow: ellipsis; */
-  /* direction: rtl; */
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;

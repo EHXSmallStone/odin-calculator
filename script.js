@@ -37,6 +37,14 @@ let displayValues = [];
 
 numberKeys.forEach((key) => {
   key.addEventListener('click', (e) => {
+    // Clear the result of dividing by 0:
+    if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
+      displayValues.push(e.target.value);
+      displayPreviousOperand.textContent = '';
+      displayCurrentOperand.textContent = e.target.value;
+      displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
+      return;
+    }
     displayValues.push(e.target.value);
     displayCurrentOperand.textContent += e.target.value;
   });
@@ -73,6 +81,17 @@ equalsKey.addEventListener('click', () => {
 function getResult(type) {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
   result = operate(operator, +firstNumber, +secondNumber);
+  // Check if it divides by 0:
+  if (result === Infinity) {
+    displayValues = [];
+    operator = '';
+    firstNumber = '';
+    secondNumber = '';
+    displayPreviousOperand.textContent = 'DON\'T DO THAT!';
+    displayCurrentOperand.textContent = '(ಠ ʖ̯ ಠ)ﮌ';
+    displayCurrentOperand.style.fontFamily = 'monospace';
+    return;
+  }
   if (type == 'equals') {
     displayPreviousOperand.textContent += `${secondNumber} =`;
     displayCurrentOperand.textContent = result;
