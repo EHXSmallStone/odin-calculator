@@ -30,8 +30,8 @@ const operate = (operator, firstNumber, secondNumber) => {
   };
 };
 
-const displayPreviousOperand = document.querySelector('#displayPanel #previousOperand');
-const displayCurrentOperand = document.querySelector('#displayPanel #currentOperand');
+const displayPreviousOperand = document.querySelector('#previousOperand');
+const displayCurrentOperand = document.querySelector('#currentOperand');
 const numberKeys = document.querySelectorAll('.number');
 let displayValues = [];
 
@@ -107,6 +107,20 @@ cancelEntryKey.addEventListener('click', () => {
   displayCurrentOperand.textContent = displayValues.join('');
 });
 
+const decimalPointKey = document.querySelector('#decimalPoint');
+const allKeys = document.querySelectorAll('#keypad button');
+allKeys.forEach((key) => {
+  key.addEventListener('click', checkDecimalPoint);
+});
+
+function checkDecimalPoint() {
+  if (displayValues.includes('.')) {
+    decimalPointKey.disabled = true;
+  } else {
+    decimalPointKey.disabled = false;
+  }
+};
+
 function clearAndInsert(e) {
   displayValues = [e.target.value];
   displayPreviousOperand.textContent = '';
@@ -125,6 +139,11 @@ operatorKeys.forEach((key) => {
   });
 });
 allClearKey.addEventListener('click', () => {
+  numberKeys.forEach((key) => {
+    key.removeEventListener('click', clearAndInsert);
+  });
+});
+cancelEntryKey.addEventListener('click', () => {
   numberKeys.forEach((key) => {
     key.removeEventListener('click', clearAndInsert);
   });
