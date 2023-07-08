@@ -72,21 +72,34 @@ equalsKey.addEventListener('click', () => {
 function getResult(type) {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
   result = operate(operator, +firstNumber, +secondNumber);
-
   if (type == 'equals') {
     displayPreviousOperand.textContent += `${secondNumber} =`;
     displayCurrentOperand.textContent = result;
   }
-
   displayValues = result.toString().split('');
-  // Reasigna displayValues con el resultado para que si un operador es usado, se usara
-  // el valor del resultado para firstNumber.
   operator = '';
   firstNumber = '';
   secondNumber = '';
 };
 
-// Solo debe ser para numberKeys porque los operatorKeys deben encadenar el resultado y usarlo
+// function checkResultLength(result) {
+//   if (result.toString().length > 12) {
+//     return result.toString().slice(0, 9) + '...';
+//   } else {
+//     return result;
+//   }
+// };
+
+const allClearKey = document.querySelector('#allClear');
+allClearKey.addEventListener('click', () => {
+  displayValues = [];
+  operator = '';
+  firstNumber = '';
+  secondNumber = '';
+  displayPreviousOperand.textContent = '';
+  displayCurrentOperand.textContent = '';
+});
+
 function clearAndInsert(e) {
   displayValues = [e.target.value];
   displayPreviousOperand.textContent = '';
@@ -104,79 +117,8 @@ operatorKeys.forEach((key) => {
     });
   });
 });
-// Es para que, despues de haber ingresado un operador con el resultado, evitar que se borre
-// todo despues de querer ingresar un numero como segundo operando
-// RECORDAR agregarlo tambien para las teclas de borrar
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-// operatorButtons.forEach((button) => {
-//   button.addEventListener('click', (e) => {
-//     // REQUIERE que se haya ingresado un valor, si no, no ingresa ningun operador al displayPanel,
-//     // o no llama a getResult por no tener un valor para secondNumber
-//     if (displayValues.length < 1) return;
-
-//     // SI firstNumber tiene un valor asignado Y se han ingresado nuevos valores para
-//     // secondNumber, se muestra el resultado + el operador elegido
-//     if (firstNumber) getResult();
-//     // Si getResult fue llamado, el valor de result sera asignado a firstNumber para
-//     // mantener una cadena de operaciones sin perder los valores anteriores
-
-//     firstNumber = displayValues.reduce((acc, current) => acc + current, '');
-//     displayValues = [];
-//     operator = e.target.value;
-//     displayPanel.textContent += ` ${operator} `;
-//   })
-// });
-
-// const getResult = () => {
-//   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
-
-//   // /0+/ regExp o /0/g
-//   if (operator == '/' && (/0+/).test(secondNumber)) {
-//     displayValues = [];
-//     operator = '';
-//     firstNumber = '';
-//     secondNumber = '';
-//     displayPanel.textContent = 'The operation divided by 0 is not allowed';
-//     numberButtons.forEach((button) => {
-//       button.addEventListener('click', clearAndInsert);
-//     });
-//     return;
-//   }
-
-//   result = operate(operator, +firstNumber, +secondNumber);
-//   displayValues = result.toString().split('');
-
-//   // Round answers with long decimals:
-//   if (result.toString().length > 12) {
-//     displayPanel.textContent = result.toString().slice(0, 12) + '...';
-//   } else {
-//     displayPanel.textContent = result;
-//   }
-
-//   operator = '';
-//   firstNumber = '';
-//   secondNumber = '';
-// };
-
-// equalsKey.addEventListener('click', () => {
-//   if (firstNumber && displayValues.length > 0) getResult();
-// });
-
-// allClearKey.addEventListener('click', () => {
-//   displayValues = [];
-//   operator = '';
-//   firstNumber = '';
-//   secondNumber = '';
-//   displayPanel.textContent = '';
-// });
-
-// const clearAndInsert = (e) => {
-//   displayValues = [];
-//   displayValues.push(e.target.value);
-//   displayPanel.textContent = e.target.value;
-//   numberButtons.forEach((button) => {
-//     button.removeEventListener('click', clearAndInsert);
-//   });
-// };
+allClearKey.addEventListener('click', () => {
+  numberKeys.forEach((key) => {
+    key.removeEventListener('click', clearAndInsert);
+  });
+});
