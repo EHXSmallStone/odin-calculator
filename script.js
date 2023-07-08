@@ -83,14 +83,6 @@ function getResult(type) {
   secondNumber = '';
 };
 
-// function checkResultLength(result) {
-//   if (result.toString().length > 12) {
-//     return result.toString().slice(0, 9) + '...';
-//   } else {
-//     return result;
-//   }
-// };
-
 const allClearKey = document.querySelector('#allClear');
 allClearKey.addEventListener('click', () => {
   displayValues = [];
@@ -130,41 +122,20 @@ function clearPreviousOperand() {
   cancelEntryKey.removeEventListener('click', clearPreviousOperand);
 };
 
-// Remove clearPreviousOperand:
+// Remove clearPreviousOperand when using an operator key
 operatorKeys.forEach((key) => {
   key.addEventListener('click', () => {
     numberKeys.forEach((key) => {
       key.removeEventListener('click', clearPreviousOperand);
     });
+    cancelEntryKey.removeEventListener('click', clearPreviousOperand);
   });
 });
 
-/* //// *//* //// *//* //// *//* //// *//* //// *//* //// *//* //// *//* //// *//* //// */
-
-// function clearAndInsert(e) {
-//   displayValues = [e.target.value];
-//   displayPreviousOperand.textContent = '';
-//   displayCurrentOperand.textContent = e.target.value;
-//   numberKeys.forEach((key) => {
-//     key.removeEventListener('click', clearAndInsert);
-//   });
+// function checkResultLength(result) {
+//   if (result.toString().length > 12) {
+//     return result.toString().slice(0, 9) + '...';
+//   } else {
+//     return result;
+//   }
 // };
-
-// Remove ClearAndInsert
-// operatorKeys.forEach((key) => {
-//   key.addEventListener('click', () => {
-//     numberKeys.forEach((key) => {
-//       key.removeEventListener('click', clearAndInsert);
-//     });
-//   });
-// });
-// allClearKey.addEventListener('click', () => {
-//   numberKeys.forEach((key) => {
-//     key.removeEventListener('click', clearAndInsert);
-//   });
-// });
-// cancelEntryKey.addEventListener('click', () => {
-//   numberKeys.forEach((key) => {
-//     key.removeEventListener('click', clearAndInsert);
-//   });
-// });
