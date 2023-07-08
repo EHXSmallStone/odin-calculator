@@ -45,6 +45,13 @@ numberKeys.forEach((key) => {
 const operatorKeys = document.querySelectorAll('.operator');
 operatorKeys.forEach((key) => {
   key.addEventListener('click', (e) => {
+    if (!firstNumber && displayValues.length == 0) return;
+    if (firstNumber && displayValues.length == 0) {
+      operator = e.target.value;
+      displayPreviousOperand.textContent = `${firstNumber} ${operator} `;
+      return;
+    }
+    if (firstNumber) getResult();
     firstNumber = displayValues.reduce((acc, current) => acc + current, '');
     displayValues = [];
     operator = e.target.value;
@@ -55,13 +62,21 @@ operatorKeys.forEach((key) => {
 
 const equalsKey = document.querySelector('#equals');
 equalsKey.addEventListener('click', () => {
-  if (!firstNumber || displayValues.length < 1) return;
-  // SI firstNumber O displayValues no tienen ningun valor, equalsKey no hara nada.
+  if (!firstNumber || displayValues.length == 0) return;
+  getResult('equals');
+  numberKeys.forEach((key) => {
+    key.addEventListener('click', clearAndInsert);
+  });
+});
+
+function getResult(type) {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
   result = operate(operator, +firstNumber, +secondNumber);
 
-  displayPreviousOperand.textContent += `${secondNumber} =`;
-  displayCurrentOperand.textContent = result;
+  if (type == 'equals') {
+    displayPreviousOperand.textContent += `${secondNumber} =`;
+    displayCurrentOperand.textContent = result;
+  }
 
   displayValues = result.toString().split('');
   // Reasigna displayValues con el resultado para que si un operador es usado, se usara
@@ -69,12 +84,7 @@ equalsKey.addEventListener('click', () => {
   operator = '';
   firstNumber = '';
   secondNumber = '';
-
-  // Add clearAndInsert to numberKeys:
-  numberKeys.forEach((key) => {
-    key.addEventListener('click', clearAndInsert);
-  });
-});
+};
 
 // Solo debe ser para numberKeys porque los operatorKeys deben encadenar el resultado y usarlo
 function clearAndInsert(e) {
