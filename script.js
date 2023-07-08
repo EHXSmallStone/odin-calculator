@@ -65,8 +65,9 @@ equalsKey.addEventListener('click', () => {
   if (!firstNumber || displayValues.length == 0) return;
   getResult('equals');
   numberKeys.forEach((key) => {
-    key.addEventListener('click', clearAndInsert);
+    key.addEventListener('click', clearPreviousOperand);
   });
+  cancelEntryKey.addEventListener('click', clearPreviousOperand);
 });
 
 function getResult(type) {
@@ -121,30 +122,49 @@ function checkDecimalPoint() {
   }
 };
 
-function clearAndInsert(e) {
-  displayValues = [e.target.value];
+function clearPreviousOperand() {
   displayPreviousOperand.textContent = '';
-  displayCurrentOperand.textContent = e.target.value;
   numberKeys.forEach((key) => {
-    key.removeEventListener('click', clearAndInsert);
+    key.removeEventListener('click', clearPreviousOperand);
   });
+  cancelEntryKey.removeEventListener('click', clearPreviousOperand);
 };
 
-// Remove ClearAndInsert
+// Remove clearPreviousOperand:
 operatorKeys.forEach((key) => {
   key.addEventListener('click', () => {
     numberKeys.forEach((key) => {
-      key.removeEventListener('click', clearAndInsert);
+      key.removeEventListener('click', clearPreviousOperand);
     });
   });
 });
-allClearKey.addEventListener('click', () => {
-  numberKeys.forEach((key) => {
-    key.removeEventListener('click', clearAndInsert);
-  });
-});
-cancelEntryKey.addEventListener('click', () => {
-  numberKeys.forEach((key) => {
-    key.removeEventListener('click', clearAndInsert);
-  });
-});
+
+/* //// *//* //// *//* //// *//* //// *//* //// *//* //// *//* //// *//* //// *//* //// */
+
+// function clearAndInsert(e) {
+//   displayValues = [e.target.value];
+//   displayPreviousOperand.textContent = '';
+//   displayCurrentOperand.textContent = e.target.value;
+//   numberKeys.forEach((key) => {
+//     key.removeEventListener('click', clearAndInsert);
+//   });
+// };
+
+// Remove ClearAndInsert
+// operatorKeys.forEach((key) => {
+//   key.addEventListener('click', () => {
+//     numberKeys.forEach((key) => {
+//       key.removeEventListener('click', clearAndInsert);
+//     });
+//   });
+// });
+// allClearKey.addEventListener('click', () => {
+//   numberKeys.forEach((key) => {
+//     key.removeEventListener('click', clearAndInsert);
+//   });
+// });
+// cancelEntryKey.addEventListener('click', () => {
+//   numberKeys.forEach((key) => {
+//     key.removeEventListener('click', clearAndInsert);
+//   });
+// });
