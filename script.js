@@ -202,16 +202,26 @@ function cancelEntryKeyEvent() {
 };
 
 const decimalPointKey = document.querySelector('#decimalPoint');
-decimalPointKey.addEventListener('click', () => {
-  if (displayValues.length == 1 && displayValues[0] == '.') {
+decimalPointKey.addEventListener('click', addDecimalPoint);
+window.addEventListener('keydown', (e) => {
+  if (e.key == '.' && decimalPointKey.disabled == false) addDecimalPoint();
+});
+
+function addDecimalPoint() {
+  if (displayValues.length == 0) {
     displayValues = ['0', '.'];
     displayCurrentOperand.textContent = '0.';
+  } else {
+    displayValues.push('.');
+    displayCurrentOperand.textContent += '.';
   }
-});
+};
+
 const allKeys = document.querySelectorAll('#keypad button');
 allKeys.forEach((key) => {
   key.addEventListener('click', checkDecimalPoint);
 });
+window.addEventListener('keydown', checkDecimalPoint);
 
 function checkDecimalPoint() {
   if (displayValues.includes('.')) {
