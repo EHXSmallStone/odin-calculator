@@ -103,13 +103,16 @@ body {
   box-shadow: none;
 }
 
-.number {
+.number,
+#changeSign {
   background-color: rgb(255, 255, 255);
 }
-.number:hover {
+.number:hover,
+#changeSign:hover {
   background-color: rgb(240, 240, 240);
 }
-.number:active {
+.number:active,
+#changeSign:active {
   background-color: rgb(255, 255, 255);
 }
 
@@ -226,10 +229,14 @@ button[value="="] {
 button[value="0"] {
   grid-row-start: 5;
   grid-column-start: 1;
-  grid-column-end: span 2;
 }
 
 button[value="."] {
+  grid-row-start: 5;
+  grid-column-start: 2;
+}
+
+button[id="changeSign"] {
   grid-row-start: 5;
   grid-column-start: 3;
 }

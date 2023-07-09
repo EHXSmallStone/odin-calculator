@@ -54,12 +54,14 @@ const operatorKeys = document.querySelectorAll('.operator');
 operatorKeys.forEach((key) => {
   key.addEventListener('click', (e) => {
     if (!firstNumber && displayValues.length == 0) return;
-    if (firstNumber && displayValues.length == 0) {
+    if (firstNumber && displayValues.length == 0 ||
+        firstNumber && displayValues.length == 1 && displayValues[0] == '-') {
       operator = e.target.value;
       let firstNumberToDisplayed = checkLength(firstNumber);
       displayPreviousOperand.textContent = `${firstNumberToDisplayed} ${operator} `;
       return;
     }
+    if (displayValues[0] == '-' && displayValues.length == 1) return;
     if (firstNumber) getResult();
     firstNumber = displayValues.reduce((acc, current) => acc + current, '');
     displayValues = [];
@@ -73,6 +75,7 @@ operatorKeys.forEach((key) => {
 const equalsKey = document.querySelector('#equals');
 equalsKey.addEventListener('click', () => {
   if (!firstNumber || displayValues.length == 0) return;
+  if (displayValues[0] == '-' && displayValues.length == 1) return;
   getResult('equals');
   numberKeys.forEach((key) => {
     key.addEventListener('click', clearPreviousOperand);
@@ -84,7 +87,7 @@ function getResult(type) {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
   result = operate(operator, +firstNumber, +secondNumber);
   // Check if it divides by 0:
-  if (result === Infinity || firstNumber == 0 && secondNumber == 0) {
+  if (result == Infinity || result == -Infinity || firstNumber == 0 && secondNumber == 0) {
     displayValues = [];
     operator = '';
     firstNumber = '';
@@ -173,6 +176,21 @@ function checkDecimalPoint() {
     decimalPointKey.disabled = false;
   }
 };
+
+const changeSignKey = document.querySelector('#changeSign');
+changeSignKey.addEventListener('click', () => {
+  if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
+    displayPreviousOperand.textContent = '';
+    displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
+  }
+  if (displayValues.includes('-')) {
+    displayValues.shift();
+    displayCurrentOperand.textContent = displayValues.join('');
+  } else {
+    displayValues.unshift('-');
+    displayCurrentOperand.textContent = displayValues.join('');
+  }
+});
 
 function clearPreviousOperand() {
   displayPreviousOperand.textContent = '';
