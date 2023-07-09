@@ -132,19 +132,23 @@ function getRepetend(num) {
 
 const allClearKey = document.querySelector('#allClear');
 allClearKey.addEventListener('click', () => {
+  if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
+    displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
+  }
   displayValues = [];
   operator = '';
   firstNumber = '';
   secondNumber = '';
   displayPreviousOperand.textContent = '';
   displayCurrentOperand.textContent = '';
-  displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace'; /* Despues de
-  mostrar el mensaje de error 'DONT DO THAT' al presionar AC no se limpiaba bien (la fuente
-  quedaba en monospace) */
 });
 
 const cancelEntryKey = document.querySelector('#cancelEntry');
 cancelEntryKey.addEventListener('click', () => {
+  if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
+    displayCurrentOperand.textContent = '';
+    displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
+  }
   if (displayValues.length == 0) return;
   displayValues.pop();
   displayCurrentOperand.textContent = displayValues.join('');
