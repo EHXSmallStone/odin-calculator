@@ -45,6 +45,9 @@ numberKeys.forEach((key) => {
       displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
       return;
     }
+    if (displayPreviousOperand.textContent.includes('=')) {
+      displayPreviousOperand.textContent = '';
+    }
     displayValues.push(e.target.value);
     displayCurrentOperand.textContent += e.target.value;
   });
@@ -77,10 +80,10 @@ equalsKey.addEventListener('click', () => {
   if (!firstNumber || displayValues.length == 0) return;
   if (displayValues[0] == '-' && displayValues.length == 1) return;
   getResult('equals');
-  numberKeys.forEach((key) => {
-    key.addEventListener('click', clearPreviousOperand);
-  });
-  cancelEntryKey.addEventListener('click', clearPreviousOperand);
+  // numberKeys.forEach((key) => {
+  //   key.addEventListener('click', clearPreviousOperand);
+  // });
+  // cancelEntryKey.addEventListener('click', clearPreviousOperand);
 });
 
 function getResult(type) {
@@ -152,6 +155,9 @@ cancelEntryKey.addEventListener('click', () => {
     displayCurrentOperand.textContent = '';
     displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
   }
+  if (displayPreviousOperand.textContent.includes('=')) {
+    displayPreviousOperand.textContent = '';
+  }
   if (displayValues.length == 0) return;
   displayValues.pop();
   displayCurrentOperand.textContent = displayValues.join('');
@@ -192,20 +198,20 @@ changeSignKey.addEventListener('click', () => {
   }
 });
 
-function clearPreviousOperand() {
-  displayPreviousOperand.textContent = '';
-  numberKeys.forEach((key) => {
-    key.removeEventListener('click', clearPreviousOperand);
-  });
-  cancelEntryKey.removeEventListener('click', clearPreviousOperand);
-};
+// function clearPreviousOperand() {
+//   displayPreviousOperand.textContent = '';
+//   numberKeys.forEach((key) => {
+//     key.removeEventListener('click', clearPreviousOperand);
+//   });
+//   cancelEntryKey.removeEventListener('click', clearPreviousOperand);
+// };
 
-// Remove clearPreviousOperand when using an operator key
-operatorKeys.forEach((key) => {
-  key.addEventListener('click', () => {
-    numberKeys.forEach((key) => {
-      key.removeEventListener('click', clearPreviousOperand);
-    });
-    cancelEntryKey.removeEventListener('click', clearPreviousOperand);
-  });
-});
+// // Remove clearPreviousOperand when using an operator key
+// operatorKeys.forEach((key) => {
+//   key.addEventListener('click', () => {
+//     numberKeys.forEach((key) => {
+//       key.removeEventListener('click', clearPreviousOperand);
+//     });
+//     cancelEntryKey.removeEventListener('click', clearPreviousOperand);
+//   });
+// });
