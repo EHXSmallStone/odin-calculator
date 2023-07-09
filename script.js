@@ -84,7 +84,7 @@ function getResult(type) {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
   result = operate(operator, +firstNumber, +secondNumber);
   // Check if it divides by 0:
-  if (result === Infinity) {
+  if (result === Infinity || firstNumber == 0 && secondNumber == 0) {
     displayValues = [];
     operator = '';
     firstNumber = '';
