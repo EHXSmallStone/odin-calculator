@@ -151,6 +151,7 @@ allClearKey.addEventListener('click', () => {
 const cancelEntryKey = document.querySelector('#cancelEntry');
 cancelEntryKey.addEventListener('click', () => {
   if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
+    displayPreviousOperand.textContent = '';
     displayCurrentOperand.textContent = '';
     displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
   }
