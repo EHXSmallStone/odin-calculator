@@ -30,6 +30,9 @@ const operate = (operator, firstNumber, secondNumber) => {
   };
 };
 
+/* // ALERT!!! \\ // ALERT!!! \\ // ALERT!!! \\ // ALERT!!! \\ // ALERT!!! \\ // ALERT!!! \\ */
+// From here on there is a code written in a very messy way. Advance at your own risk!!!
+
 const displayPreviousOperand = document.querySelector('#previousOperand');
 const displayCurrentOperand = document.querySelector('#currentOperand');
 const numberKeys = document.querySelectorAll('.number');
@@ -80,10 +83,6 @@ equalsKey.addEventListener('click', () => {
   if (!firstNumber || displayValues.length == 0) return;
   if (displayValues[0] == '-' && displayValues.length == 1) return;
   getResult('equals');
-  // numberKeys.forEach((key) => {
-  //   key.addEventListener('click', clearPreviousOperand);
-  // });
-  // cancelEntryKey.addEventListener('click', clearPreviousOperand);
 });
 
 function getResult(type) {
@@ -197,21 +196,3 @@ changeSignKey.addEventListener('click', () => {
     displayCurrentOperand.textContent = displayValues.join('');
   }
 });
-
-// function clearPreviousOperand() {
-//   displayPreviousOperand.textContent = '';
-//   numberKeys.forEach((key) => {
-//     key.removeEventListener('click', clearPreviousOperand);
-//   });
-//   cancelEntryKey.removeEventListener('click', clearPreviousOperand);
-// };
-
-// // Remove clearPreviousOperand when using an operator key
-// operatorKeys.forEach((key) => {
-//   key.addEventListener('click', () => {
-//     numberKeys.forEach((key) => {
-//       key.removeEventListener('click', clearPreviousOperand);
-//     });
-//     cancelEntryKey.removeEventListener('click', clearPreviousOperand);
-//   });
-// });
