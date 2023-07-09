@@ -39,51 +39,79 @@ const numberKeys = document.querySelectorAll('.number');
 let displayValues = [];
 
 numberKeys.forEach((key) => {
-  key.addEventListener('click', (e) => {
-    // Clear the result of dividing by 0:
-    if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
-      displayValues.push(e.target.value);
-      displayPreviousOperand.textContent = '';
-      displayCurrentOperand.textContent = e.target.value;
-      displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
-      return;
-    }
-    if (displayPreviousOperand.textContent.includes('=')) {
-      displayPreviousOperand.textContent = '';
-    }
-    displayValues.push(e.target.value);
-    displayCurrentOperand.textContent += e.target.value;
-  });
+  key.addEventListener('click', addNumber);
 });
+window.addEventListener('keydown', addNumber);
+
+function addNumber(e) {
+  let value;
+  if (e.type == 'keydown') {
+    value = e.key;
+    let validValues = Array.from(numberKeys).map((key) => key.value);
+    if (!validValues.includes(value)) return;
+  } else {
+    value = e.target.value;
+  }
+  // Clear the result of dividing by 0:
+  if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
+    displayValues.push(value);
+    displayPreviousOperand.textContent = '';
+    displayCurrentOperand.textContent = value;
+    displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
+    return;
+  }
+  if (displayPreviousOperand.textContent.includes('=')) {
+    displayPreviousOperand.textContent = '';
+  }
+  displayValues.push(value);
+  displayCurrentOperand.textContent += value;
+};
 
 const operatorKeys = document.querySelectorAll('.operator');
 operatorKeys.forEach((key) => {
-  key.addEventListener('click', (e) => {
-    if (!firstNumber && displayValues.length == 0) return;
-    if (firstNumber && displayValues.length == 0 ||
-        firstNumber && displayValues.length == 1 && displayValues[0] == '-') {
-      operator = e.target.value;
-      let firstNumberToDisplayed = checkLength(firstNumber);
-      displayPreviousOperand.textContent = `${firstNumberToDisplayed} ${operator} `;
-      return;
-    }
-    if (displayValues[0] == '-' && displayValues.length == 1) return;
-    if (firstNumber) getResult();
-    firstNumber = displayValues.reduce((acc, current) => acc + current, '');
-    displayValues = [];
-    operator = e.target.value;
+  key.addEventListener('click', addOperator);
+});
+window.addEventListener('keydown', addOperator);
+
+function addOperator(e) {
+  let value;
+  if (e.type == 'keydown') {
+    value = e.key;
+    let validValues = Array.from(operatorKeys).map((key) => key.value);
+    if (!validValues.includes(value)) return;
+  } else {
+    value = e.target.value;
+  }
+
+  if (!firstNumber && displayValues.length == 0) return;
+  if (firstNumber && displayValues.length == 0 ||
+      firstNumber && displayValues.length == 1 && displayValues[0] == '-') {
+    operator = value;
     let firstNumberToDisplayed = checkLength(firstNumber);
     displayPreviousOperand.textContent = `${firstNumberToDisplayed} ${operator} `;
-    displayCurrentOperand.textContent = '';
-  });
-});
+    return;
+  }
+  if (displayValues[0] == '-' && displayValues.length == 1) return;
+  if (firstNumber) getResult();
+  firstNumber = displayValues.reduce((acc, current) => acc + current, '');
+  displayValues = [];
+  operator = value;
+  let firstNumberToDisplayed = checkLength(firstNumber);
+  displayPreviousOperand.textContent = `${firstNumberToDisplayed} ${operator} `;
+  displayCurrentOperand.textContent = '';
+};
 
 const equalsKey = document.querySelector('#equals');
-equalsKey.addEventListener('click', () => {
+equalsKey.addEventListener('click', equalsKeyEvent);
+window.addEventListener('keydown', (e) => {
+  if (e.key == '=') equalsKeyEvent();
+});
+
+function equalsKeyEvent() {
   if (!firstNumber || displayValues.length == 0) return;
   if (displayValues[0] == '-' && displayValues.length == 1) return;
   getResult('equals');
-});
+};
 
 function getResult(type) {
   secondNumber = displayValues.reduce((acc, current) => acc + current, '');
@@ -136,7 +164,12 @@ function getRepetend(num) {
 }
 
 const allClearKey = document.querySelector('#allClear');
-allClearKey.addEventListener('click', () => {
+allClearKey.addEventListener('click', allClearKeyEvent);
+window.addEventListener('keydown', (e) => {
+  if (e.key == 'Delete') allClearKeyEvent();
+});
+
+function allClearKeyEvent() {
   if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
     displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
   }
@@ -146,10 +179,15 @@ allClearKey.addEventListener('click', () => {
   secondNumber = '';
   displayPreviousOperand.textContent = '';
   displayCurrentOperand.textContent = '';
-});
+};
 
 const cancelEntryKey = document.querySelector('#cancelEntry');
-cancelEntryKey.addEventListener('click', () => {
+cancelEntryKey.addEventListener('click', cancelEntryKeyEvent);
+window.addEventListener('keydown', (e) => {
+  if (e.key == 'Backspace') cancelEntryKeyEvent();
+});
+
+function cancelEntryKeyEvent() {
   if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
     displayPreviousOperand.textContent = '';
     displayCurrentOperand.textContent = '';
@@ -161,7 +199,7 @@ cancelEntryKey.addEventListener('click', () => {
   if (displayValues.length == 0) return;
   displayValues.pop();
   displayCurrentOperand.textContent = displayValues.join('');
-});
+};
 
 const decimalPointKey = document.querySelector('#decimalPoint');
 decimalPointKey.addEventListener('click', () => {
