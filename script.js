@@ -56,14 +56,16 @@ operatorKeys.forEach((key) => {
     if (!firstNumber && displayValues.length == 0) return;
     if (firstNumber && displayValues.length == 0) {
       operator = e.target.value;
-      displayPreviousOperand.textContent = `${firstNumber} ${operator} `;
+      let firstNumberToDisplayed = checkLength(firstNumber);
+      displayPreviousOperand.textContent = `${firstNumberToDisplayed} ${operator} `;
       return;
     }
     if (firstNumber) getResult();
     firstNumber = displayValues.reduce((acc, current) => acc + current, '');
     displayValues = [];
     operator = e.target.value;
-    displayPreviousOperand.textContent = `${firstNumber} ${operator} `;
+    let firstNumberToDisplayed = checkLength(firstNumber);
+    displayPreviousOperand.textContent = `${firstNumberToDisplayed} ${operator} `;
     displayCurrentOperand.textContent = '';
   });
 });
@@ -92,15 +94,41 @@ function getResult(type) {
     displayCurrentOperand.style.fontFamily = 'monospace';
     return;
   }
+  let secondNumberToDisplayed = checkLength(secondNumber);
+  let resultToDisplayed = checkLength(result);
   if (type == 'equals') {
-    displayPreviousOperand.textContent += `${secondNumber} =`;
-    displayCurrentOperand.textContent = result;
+    displayPreviousOperand.textContent += `${secondNumberToDisplayed} =`;
+    displayCurrentOperand.textContent = resultToDisplayed;
   }
   displayValues = result.toString().split('');
   operator = '';
   firstNumber = '';
   secondNumber = '';
 };
+
+function checkLength(number) {
+  if (!Number.isInteger(number) && getRepetend(number)) {
+    return roundRepeatingDecimals(number);
+  } else if (number.toString().length > 12) {
+    return number.toString().slice(0, 9) + '...';
+  } else {
+    return number;
+  }
+};
+
+function roundRepeatingDecimals(number) {
+  let patternLength = getRepetend(number).pattern.toString().length;
+  let patternIndex = getRepetend(number).index;
+  let multiplier = patternIndex + patternLength;
+  rounded = Math.round(number * (10 ** multiplier)) / 10 ** multiplier;
+  return rounded;
+};
+
+// stackoverflow.com/questions/26363390/javascript-regex-to-capture-repeating-part-of-decimal
+function getRepetend(num) {
+  let m = num.toString().match(/\.(\d*?)(\d+?)\2+$/);
+  return m && {pattern: +m[2], index: m[1].length};
+}
 
 const allClearKey = document.querySelector('#allClear');
 allClearKey.addEventListener('click', () => {
@@ -110,6 +138,9 @@ allClearKey.addEventListener('click', () => {
   secondNumber = '';
   displayPreviousOperand.textContent = '';
   displayCurrentOperand.textContent = '';
+  displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace'; /* Despues de
+  mostrar el mensaje de error 'DONT DO THAT' al presionar AC no se limpiaba bien (la fuente
+  quedaba en monospace) */
 });
 
 const cancelEntryKey = document.querySelector('#cancelEntry');
@@ -150,11 +181,3 @@ operatorKeys.forEach((key) => {
     cancelEntryKey.removeEventListener('click', clearPreviousOperand);
   });
 });
-
-// function checkResultLength(result) {
-//   if (result.toString().length > 12) {
-//     return result.toString().slice(0, 9) + '...';
-//   } else {
-//     return result;
-//   }
-// };
