@@ -154,6 +154,9 @@ function roundRepeatingDecimals(number) {
   let patternIndex = getRepetend(number).index;
   let multiplier = patternIndex + patternLength;
   rounded = Math.round(number * (10 ** multiplier)) / 10 ** multiplier;
+  if (rounded.toString().length > 12) {
+    return rounded.toString().slice(0, 9) + '...';
+  }
   return rounded;
 };
 
