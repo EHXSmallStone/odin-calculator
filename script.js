@@ -232,7 +232,12 @@ function checkDecimalPoint() {
 };
 
 const changeSignKey = document.querySelector('#changeSign');
-changeSignKey.addEventListener('click', () => {
+changeSignKey.addEventListener('click', changeSign);
+window.addEventListener('keydown', (e) => {
+  if (e.key == 'ArrowUp' || e.key == 'ArrowDown') changeSign();
+});
+
+function changeSign() {
   if (displayPreviousOperand.textContent == 'DON\'T DO THAT!') {
     displayPreviousOperand.textContent = '';
     displayCurrentOperand.style.fontFamily = 'led_calculatorregular, monospace';
@@ -244,7 +249,7 @@ changeSignKey.addEventListener('click', () => {
     displayValues.unshift('-');
     displayCurrentOperand.textContent = displayValues.join('');
   }
-});
+};
 
 // Add hover effects to buttons:
 
@@ -291,6 +296,9 @@ allKeys.forEach((key) => {
 });
 
 window.addEventListener('keydown', (e) => {
+  if (e.key == 'ArrowUp' || e.key == 'ArrowDown') {
+    document.querySelector('#changeSign').style.boxShadow = 'none';
+  }
   allKeys.forEach((key) => {
     if (key.value.includes(e.key)) {
       key.style.boxShadow = 'none';
@@ -301,6 +309,9 @@ window.addEventListener('keydown', (e) => {
   });
 });
 window.addEventListener('keyup', (e) => {
+  if (e.key == 'ArrowUp' || e.key == 'ArrowDown') {
+    document.querySelector('#changeSign').style.boxShadow = 'inset 0 -5px rgb(0, 0, 0, 0.25)';
+  }
   allKeys.forEach((key) => {
     if (key.value.includes(e.key)) {
       key.style.boxShadow = 'inset 0 -5px rgb(0, 0, 0, 0.25)';
