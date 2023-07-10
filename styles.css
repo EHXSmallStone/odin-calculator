@@ -97,22 +97,12 @@ body {
   border-radius: 5px;
   box-shadow: inset 0 -5px rgb(0, 0, 0, 0.25);
   border: 1px solid rgb(55 55 55 / 0.5);
-}
-
-#keypad > button:active {
-  box-shadow: none;
+  outline: none;
 }
 
 .number,
+#decimalPoint,
 #changeSign {
-  background-color: rgb(255, 255, 255);
-}
-.number:hover,
-#changeSign:hover {
-  background-color: rgb(240, 240, 240);
-}
-.number:active,
-#changeSign:active {
   background-color: rgb(255, 255, 255);
 }
 
@@ -120,27 +110,11 @@ body {
 #equals {
   background-color: rgb(40, 220, 180);
 }
-.operator:hover,
-#equals:hover {
-  background-color: rgb(30, 210, 170);
-}
-.operator:active,
-#equals:active {
-  background-color: rgb(40, 220, 180);
-}
 
 #allClear,
 #cancelEntry {
   background-color: rgb(50, 50, 50);
   color: #fff;
-}
-#allClear:hover,
-#cancelEntry:hover {
-  background-color: rgb(40, 40, 40);
-}
-#allClear:active,
-#cancelEntry:active {
-  background-color: rgb(255, 0, 0);
 }
 
 /* Grid layout config *//* ////////// *//* ////////// *//* ////////// *//* ////////// */

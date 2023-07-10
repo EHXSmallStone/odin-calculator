@@ -245,3 +245,68 @@ changeSignKey.addEventListener('click', () => {
     displayCurrentOperand.textContent = displayValues.join('');
   }
 });
+
+// Add hover effects to buttons:
+
+allKeys.forEach((key) => {
+  key.addEventListener('mouseover', (e) => {
+    if (key.className == 'number' || key.id == 'decimalPoint' || key.id == 'changeSign') {
+      key.style.backgroundColor = 'rgb(235, 235, 235)';
+    } else if (key.className == 'operator' || key.id == 'equals') {
+      key.style.backgroundColor = 'rgb(20, 200, 160)';
+    } else if (key.id == 'allClear' || key.id == 'cancelEntry') {
+      key.style.backgroundColor = 'rgb(120, 0, 0)';
+    }
+  })
+});
+allKeys.forEach((key) => {
+  key.addEventListener('mouseout', (e) => {
+    if (key.className == 'number' || key.id == 'decimalPoint' || key.id == 'changeSign') {
+      key.style.backgroundColor = 'rgb(255, 255, 255)';
+    } else if (key.className == 'operator' || key.id == 'equals') {
+      key.style.backgroundColor = 'rgb(40, 220, 180)';
+    } else if (key.id == 'allClear' || key.id == 'cancelEntry') {
+      key.style.backgroundColor = 'rgb(50, 50, 50)';
+    }
+  })
+});
+
+// Add active effects to buttons:
+
+allKeys.forEach((key) => {
+  key.addEventListener('mousedown', (e) => {
+    key.style.boxShadow = 'none';
+    if (e.target.value == 'Delete' || e.target.value == 'Backspace') {
+      e.target.style.backgroundColor = 'rgb(200, 0, 0)';
+    }
+  })
+});
+allKeys.forEach((key) => {
+  key.addEventListener('mouseup', (e) => {
+    key.style.boxShadow = 'inset 0 -5px rgb(0, 0, 0, 0.25)';
+    if (e.target.value == 'Delete' || e.target.value == 'Backspace') {
+      e.target.style.backgroundColor = 'rgb(50, 50, 50)';
+    }
+  })
+});
+
+window.addEventListener('keydown', (e) => {
+  allKeys.forEach((key) => {
+    if (key.value.includes(e.key)) {
+      key.style.boxShadow = 'none';
+      if (e.key == 'Delete' || e.key == 'Backspace') {
+        key.style.backgroundColor = 'rgb(200, 0, 0)';
+      }
+    }
+  });
+});
+window.addEventListener('keyup', (e) => {
+  allKeys.forEach((key) => {
+    if (key.value.includes(e.key)) {
+      key.style.boxShadow = 'inset 0 -5px rgb(0, 0, 0, 0.25)';
+      if (e.key == 'Delete' || e.key == 'Backspace') {
+        key.style.backgroundColor = 'rgb(50, 50, 50)';
+      }
+    }
+  });
+});
