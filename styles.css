@@ -19,7 +19,10 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #34c3fd;
+  background: linear-gradient(180deg,
+  rgb(175 255 245),
+  rgb(52, 195, 253),
+  rgb(45 120 197));
 }
 
 #calculator {
